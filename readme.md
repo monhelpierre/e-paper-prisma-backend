@@ -10,7 +10,6 @@ This project is a Node.js backend server integrated with Prisma ORM for database
   - [Setup and Installation](#setup-and-installation)
     - [Prerequisites](#prerequisites)
     - [Installation Steps](#installation-steps)
-    - [Key Notes](#key-notes)
 
 ---
 
@@ -84,9 +83,3 @@ This project is a Node.js backend server integrated with Prisma ORM for database
    ```
 
 --
-
-### Key Notes
-
-- Replace `<repository-url>` and `<repository-folder>` with your GitHub repository details.
-- Add or modify API endpoints in the **API Endpoints** section as your project evolves.
-- If using a different database (PostgreSQL, MySQL), update the `DATABASE_URL` field in `.env` and modify `schema.prisma`.
