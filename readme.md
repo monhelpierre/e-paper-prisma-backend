@@ -69,14 +69,13 @@ This project is a Node.js backend server integrated with Prisma ORM for database
        npx prisma migrate dev --name init
    ```
 
-6. **Start the Server**
-   For development
+6. **Start the Server for development**
 
    ```bash
        npm run dev
    ```
 
-   For development
+   **For production**
 
    ```bash
       npm start
