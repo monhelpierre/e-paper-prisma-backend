@@ -35,8 +35,8 @@ This project is a Node.js backend server integrated with Prisma ORM for database
 1. **Clone the Repository**
 
    ```bash
-   git clone <https://github.com/monhelpierre/e-paper-prisma-backend.git>
-   cd <e-paper-prisma-backend>
+   git clone https://github.com/monhelpierre/e-paper-prisma-backend.git
+   cd e-paper-prisma-backend
    ```
 
 2. **Install dependencies**
