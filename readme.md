@@ -81,5 +81,3 @@ This project is a Node.js backend server integrated with Prisma ORM for database
    ```bash
       npm start
    ```
-
---
