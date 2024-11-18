@@ -1,16 +1,11 @@
 import cors from "cors";
 import path from "path";
-import {
-  saveDocument,
-  getDocument,
-  getDocuments,
-  deleteDocument,
-} from "./service/document.js";
 import multer from "multer";
 import express from "express";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -55,6 +50,13 @@ const upload = multer({
  * Allow users to acces files under folder files
  */
 app.use("/files", express.static(path.join(__dirname, "files")));
+
+import {
+  saveDocument,
+  getDocument,
+  getDocuments,
+  deleteDocument,
+} from "./service/document.js";
 
 /**
  * Document routes

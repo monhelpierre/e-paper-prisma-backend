@@ -1,3 +1,5 @@
+import fs from "fs";
+
 async function getDocuments(prisma, res) {
   try {
     const posts = await prisma.document.findMany();
@@ -20,8 +22,8 @@ async function getDocuments(prisma, res) {
         liquid_value: doc.liquid_value,
         document_type: doc.document_type,
         document_origin: doc.document_origin,
-        updated_at: doc.updated_at,
-        created_at: doc.created_at,
+        updatedAt: doc.updatedAt,
+        createdAt: doc.createdAt,
       })),
     });
   } catch (error) {
@@ -31,7 +33,7 @@ async function getDocuments(prisma, res) {
 }
 
 async function getDocument(prisma, req, res) {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
 
   if (!id) {
     prisma.$disconnect();
@@ -68,9 +70,10 @@ async function saveDocument(prisma, req, res) {
     return res.status(500).json({ error: "Missing required fields." });
   }
 
+  req.body.id = parseInt(req.body.id);
+  req.body.attr_value = parseInt(req.body.attr_value);
+  req.body.liquid_value = parseInt(req.body.liquid_value);
   req.body.name = req.file.filename;
-  req.body.created_at = new Date();
-  req.body.updated_at = new Date();
 
   try {
     const post = await prisma.document.create({
@@ -92,7 +95,7 @@ async function saveDocument(prisma, req, res) {
 }
 
 async function deleteDocument(prisma, req, res) {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
 
   if (!id) {
     prisma.$disconnect();
@@ -102,7 +105,7 @@ async function deleteDocument(prisma, req, res) {
 
   try {
     const document = await prisma.document.findUnique({
-      where: { id: parseInt(req.params.id) },
+      where: { id: id },
     });
 
     if (!document) {
@@ -111,7 +114,13 @@ async function deleteDocument(prisma, req, res) {
       return res.status(500).json({ error: "Document not found!" });
     }
 
-    const filePath = "./files/" + docSnapshot.data().name;
+    const filePath = "./files/" + document.name;
+
+    await prisma.document.delete({
+      where: {
+        id: id,
+      },
+    });
 
     fs.access(filePath, fs.constants.F_OK, (err) => {
       fs.unlink(filePath, (err) => {
@@ -119,15 +128,9 @@ async function deleteDocument(prisma, req, res) {
           console.error("Error deleting file:", err);
           prisma.$disconnect();
           return res
-            .status(500)
+            .status(200)
             .json({ error: `Error deleting document: ${err.message}` });
         } else {
-          const deletedDocument = prisma.document.delete({
-            where: {
-              id: id,
-            },
-          });
-
           prisma.document.findMany().then((documents) => {
             console.log("Document deleted successfully!");
             prisma.$disconnect();
@@ -153,9 +156,4 @@ async function deleteDocument(prisma, req, res) {
   }
 }
 
-module.exports = {
-  getDocuments,
-  getDocument,
-  saveDocument,
-  deleteDocument,
-};
+export { getDocuments, getDocument, saveDocument, deleteDocument };
